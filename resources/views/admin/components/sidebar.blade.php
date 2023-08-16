@@ -62,7 +62,7 @@
                     </a>
                 </li>
                 <li class="sidebar-item {{ $active == 'peminjaman' ? 'active' : '' }}">
-                    <a href="{{ route('admin.book.peminjaman_buku') }}" class="sidebar-link">
+                    <a href="{{ route('admin.peminjaman.index') }}" class="sidebar-link">
                         <i class="bi bi-book-fill"></i>
                         <span>Peminjaman</span>
                     </a>

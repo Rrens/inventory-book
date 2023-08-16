@@ -3,6 +3,7 @@
 use App\Http\Controllers\admin\AdminController;
 use App\Http\Controllers\Admin\BookController;
 use App\Http\Controllers\Admin\DashboadController;
+use App\Http\Controllers\Admin\PeminjamanController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,5 +32,8 @@ Route::group([
     Route::post('admin/update', [AdminController::class, 'update'])->name('admin.user.update');
     Route::post('admin/delete', [AdminController::class, 'delete'])->name('admin.user.delete');
     Route::get('book', [BookController::class, 'index'])->name('admin.book.index');
-    Route::get('peminjaman', [BookController::class, 'peminjaman_buku'])->name('admin.book.peminjaman_buku');
+    Route::post('book', [BookController::class, 'store'])->name('admin.book.store');
+    Route::post('book/update', [BookController::class, 'update'])->name('admin.book.update');
+    Route::post('book/delete', [BookController::class, 'delete'])->name('admin.book.delete');
+    Route::get('peminjaman', [PeminjamanController::class, 'index'])->name('admin.peminjaman.index');
 });

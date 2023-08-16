@@ -15,6 +15,7 @@ class AdminController extends Controller
 {
     public function index()
     {
+        // User::withTrashed()->restore();
         $active = 'user';
         $date = Carbon::now()->toDateString();
         $data = User::all();
@@ -23,7 +24,6 @@ class AdminController extends Controller
 
     public function store(Request $request)
     {
-        // dd($request->all());
         $validator = Validator::make($request->all(), [
             'type_anggota' => 'required',
             'email' => 'email',
@@ -145,6 +145,17 @@ class AdminController extends Controller
 
     public function delete(Request $request)
     {
-        dd($request->all());
+        $validator = Validator::make($request->all(), [
+            'id' => 'required',
+        ]);
+        if ($validator->fails()) {
+            Alert::toast($validator->messages()->all(), 'error');
+            return back()->withInput();
+        }
+
+        // dd($request->all());
+        $user = User::where('id', $request->id)->delete();
+        Alert::toast('Success Delete data', 'success');
+        return back();
     }
 }

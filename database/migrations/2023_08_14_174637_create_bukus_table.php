@@ -21,10 +21,12 @@ return new class extends Migration
             $table->string('gmd')->nullable();
             $table->string('deskripsi_fisik');
             $table->string('judul_seri')->nullable();
-            $table->integer('nomor_panggil');
+            $table->string('judul');
+            $table->string('edisi');
+            $table->integer('nomor_panggil')->nullable();
             $table->string('bahasa');
-            $table->integer('no_klas');
-            $table->string('keterangan');
+            $table->integer('no_klas')->nullable();
+            $table->string('keterangan')->default('ready');
             $table->softDeletes();
             $table->timestamps();
         });
