@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreign('id_user')->references('id')->on('users');
             $table->unsignedBigInteger('id_buku');
             $table->foreign('id_buku')->references('id')->on('bukus');
+            $table->text('keterangan')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

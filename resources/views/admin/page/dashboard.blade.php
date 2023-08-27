@@ -13,7 +13,7 @@
                     <div class="col-12 col-xl-6">
                         <div class="card">
                             <div class="card-header">
-                                <h4>Grafik Penjualan</h4>
+                                <h4>Grafik Peminjaman</h4>
                             </div>
                             <div class="card-body">
                                 <div class="row">
@@ -27,42 +27,50 @@
                     <div class="col-12 col-xl-6">
                         <div class="card">
                             <div class="card-header">
-                                <h4>Data Penjualan Product</h4>
+                                <h4>Data Peminjaman Buku</h4>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
                                     <table class="table table-hover table-lg">
                                         <thead>
                                             <tr>
-                                                <th>Product</th>
-                                                <th>Price</th>
-                                                <th>Order</th>
-                                                <th>Stok</th>
+                                                <th>No</th>
+                                                <th>Nama Buku</th>
+                                                <th>Siswa</th>
+                                                <th>Tanggal Pinjam</th>
+                                                <th>Tanggal Kembali</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td class="col-3">
-                                                    <div class="d-flex align-items-center">
-                                                        <p class="font-bold ms-3 mb-0"></p>
-                                                    </div>
-                                                </td>
-                                                <td class="col-auto">
-                                                    <p class="mb-0">
-
-                                                    </p>
-                                                </td>
-                                                <td>
-                                                    <div class="col-auto">
-                                                        <p class="mb-0"></p>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="col-auto">
-                                                        <p class="mb-0"></p>
-                                                    </div>
-                                                </td>
-                                            </tr>
+                                            @foreach ($data_list as $item)
+                                                <tr>
+                                                    <td class="col-3">
+                                                        <div class="d-flex align-items-center">
+                                                            <p class="font-bold ms-3 mb-0">{{ $loop->iteration }}</p>
+                                                        </div>
+                                                    </td>
+                                                    <td class="col-auto">
+                                                        <p class="mb-0">
+                                                            {{ $item->Buku[0]->judul }}
+                                                        </p>
+                                                    </td>
+                                                    <td>
+                                                        <div class="col-auto">
+                                                            <p class="mb-0">{{ $item->User[0]->username }}</p>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="col-auto">
+                                                            <p class="mb-0">{{ $item->Peminjaman[0]->tgl_pinjam }}</p>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="col-auto">
+                                                            <p class="mb-0">{{ $item->Peminjaman[0]->tgl_kembali }}</p>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
                                         </tbody>
                                     </table>
 
@@ -78,14 +86,9 @@
                 <script>
                     var areaOptions = {
                         series: [{
-                                name: "Order",
-                                data: ,
-                            },
-                            // {
-                            //     name: "series2",
-                            //     data: [11, 32, 45, 32, 34, 52, 41],
-                            // },
-                        ],
+                            name: "Order",
+                            data: {!! json_encode($peminjaman_grafik) !!},
+                        }, ],
                         chart: {
                             height: 350,
                             type: "area",
@@ -98,7 +101,7 @@
                         },
                         xaxis: {
                             type: "datetime",
-                            categories: ,
+                            categories: {!! json_encode($bulan_grafik) !!},
                         },
                         tooltip: {
                             x: {

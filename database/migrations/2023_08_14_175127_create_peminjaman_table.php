@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->date('tgl_pinjam');
             $table->date('tgl_kembali')->nullable();
-            $table->text('keterangan')->nullable();
+            $table->date('tgl_pengembalian')->nullable();
             $table->integer('denda')->nullable()->default(0);
             $table->softDeletes();
             $table->timestamps();

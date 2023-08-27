@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->text('isbn');
             $table->string('penerbit');
-            $table->year('tahun_terbit');
+            $table->integer('tahun_terbit');
             $table->string('pengarang');
             $table->string('tempat_terbit')->nullable();
             $table->string('gmd')->nullable();

@@ -36,4 +36,11 @@ Route::group([
     Route::post('book/update', [BookController::class, 'update'])->name('admin.book.update');
     Route::post('book/delete', [BookController::class, 'delete'])->name('admin.book.delete');
     Route::get('peminjaman', [PeminjamanController::class, 'index'])->name('admin.peminjaman.index');
+    Route::post('peminjaman', [PeminjamanController::class, 'store'])->name('admin.peminjaman.store');
+    Route::post('peminjaman/update', [PeminjamanController::class, 'update'])->name('admin.peminjaman.update');
+    Route::post('peminjaman/delete', [PeminjamanController::class, 'delete'])->name('admin.peminjaman.delete');
+    Route::get('peminjaman/get-user-id/{id}', [PeminjamanController::class, 'get_user_id']);
+    Route::get('peminjaman/get-book-id/{isbn}', [PeminjamanController::class, 'get_book_id']);
+    Route::get('peminjaman/get-user-name/{member_name}', [PeminjamanController::class, 'get_user_name']);
+    Route::post('pengembalian', [PeminjamanController::class, 'store_pengembalian'])->name('admin.pengembalian.store');
 });

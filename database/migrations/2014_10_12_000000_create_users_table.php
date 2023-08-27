@@ -21,8 +21,8 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->text('phone');
             $table->string('kode_pos');
-            $table->string('type_anggota')->nullable();
             $table->string('jenis_user');
+            $table->string('type_anggota')->nullable();
             $table->date('tanggal_lahir');
             $table->date('tanggal_input');
             $table->string('password');
