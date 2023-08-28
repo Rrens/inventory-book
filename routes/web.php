@@ -43,4 +43,5 @@ Route::group([
     Route::get('peminjaman/get-book-id/{isbn}', [PeminjamanController::class, 'get_book_id']);
     Route::get('peminjaman/get-user-name/{member_name}', [PeminjamanController::class, 'get_user_name']);
     Route::post('pengembalian', [PeminjamanController::class, 'store_pengembalian'])->name('admin.pengembalian.store');
+    Route::get('pengembalian/get-book-pengembalian/{member_name}/{isbn}', [PeminjamanController::class, 'get_book_for_pengembalian']);
 });

@@ -55,6 +55,23 @@
         })
     })
 
+    $('#isbn_pengembalian').on('change', function(e) {
+        let isbn = e.target.value;
+        let nama_member = $('#member_name').val()
+        $.ajax({
+            url: `/admin/pengembalian/get-book-pengembalian/${nama_member}/${isbn}`,
+            method: 'GET',
+            success: (data) => {
+                $('#judul').val(data['data_buku']['buku'][0][
+                    'judul'
+                ])
+            },
+            error: (error) => {
+                console.log(error)
+            },
+        })
+    })
+
     $('#member_name').on('change', function(e) {
         let nama_member = e.target.value;
         let tanggal_pengembalian = $('#tanggal_pengembalian').val();
@@ -62,6 +79,17 @@
             url: `/admin/peminjaman/get-user-name/${nama_member}`,
             method: 'GET',
             success: (data) => {
+                if (data['status'] == 'Failed') {
+                    alert(data['keterangan']);
+                    $('#member_name').val('')
+                    $('#isbn_pengembalian').attr('readonly', true);
+                    $('#tgl_pinjam').val('')
+                    $('#tgl_kembali').val('')
+
+                    $('#jumlah_buku_pinjam').val('')
+                    $('#denda').val('')
+                }
+                $('#isbn_pengembalian').attr('readonly', false);
                 // console.log(data['detail_peminjaman']['buku'][0][
                 //     'isbn'
                 // ])
@@ -72,12 +100,12 @@
                 } else {
                     $('#denda').val(0)
                 }
-                $('#judul').val(data['detail_peminjaman']['buku'][0][
-                    'judul'
-                ])
-                $('#isbn_pengembalian').val(data['detail_peminjaman']['buku'][0][
-                    'isbn'
-                ])
+                // $('#judul').val(data['detail_peminjaman']['buku'][0][
+                //     'judul'
+                // ])
+                // $('#isbn_pengembalian').val(data['detail_peminjaman']['buku'][0][
+                //     'isbn'
+                // ])
                 $('#tgl_pinjam').val(data['detail_peminjaman']['peminjaman'][0][
                     'tgl_pinjam'
                 ])
@@ -89,7 +117,9 @@
 
 
             },
-            error: console.log(),
+            error: (error) => {
+                // console.log(error)
+            },
         })
     })
 </script>
