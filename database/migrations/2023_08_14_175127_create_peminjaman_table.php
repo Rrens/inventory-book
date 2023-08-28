@@ -16,7 +16,6 @@ return new class extends Migration
             $table->date('tgl_pinjam');
             $table->date('tgl_kembali')->nullable();
             $table->date('tgl_pengembalian')->nullable();
-            $table->integer('denda')->nullable()->default(0);
             $table->softDeletes();
             $table->timestamps();
         });

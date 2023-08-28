@@ -67,6 +67,18 @@
                         <span>Peminjaman</span>
                     </a>
                 </li>
+                <li class="sidebar-item {{ $active == 'laporan' ? 'active' : '' }}">
+                    <a href="{{ route('admin.laporan.index') }}" class="sidebar-link">
+                        <i class="bi bi-book"></i>
+                        <span>Laporan</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="{{ route('logout') }}" class="sidebar-link">
+                        <i class="bi bi-door-open-fill"></i>
+                        <span>Logouts</span>
+                    </a>
+                </li>
             </ul>
         </div>
     </div>

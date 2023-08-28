@@ -193,7 +193,6 @@ class PeminjamanController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'member_name' => 'required',
-            'denda' => 'required'
             // 'tgl_pinjam' => 'required',
             // 'isbn' => 'required',
             // 'judul_buku' => 'required',
@@ -210,7 +209,6 @@ class PeminjamanController extends Controller
         $peminjaman_detail->save();
 
         $peminjaman = Peminjaman::where('id', $peminjaman_detail->id_peminjaman)->first();
-        $peminjaman->denda = $request->denda;
         $peminjaman->tgl_pengembalian = $request->tgl_pengembalian;
         $peminjaman->save();
 

@@ -17,7 +17,7 @@
 
         body.theme-dark a {
             /* text-decoration: none !important;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        color: white; */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                color: white; */
             color: inherit;
             text-decoration: none !important;
         }
@@ -260,13 +260,6 @@
                                     <input type="gi " class="form-control mt-3" round id="tgl_pinjam"
                                         name="tgl_pinjam" value="{{ old('tgl_pinjam') }}" required readonly>
                                 </div>
-                                <div class="form-group mb-3">
-                                    <label for="basicInput">Tanggal Kembali</label>
-                                    <input type="text" class="form-control mt-3" round id="tgl_kembali"
-                                        name="tgl_kembali" value="{{ old('tgl_kembali') }}" required readonly>
-                                    <input type="date" id="tanggal_pengembalian" name="tgl_pengembalian"
-                                        value="{{ $date }}" hidden readonly>
-                                </div>
                             </div>
                             <div class="flex-end">
                                 <div class="form-group mb-3">
@@ -280,9 +273,11 @@
                                         name="judul_buku" required readonly>
                                 </div>
                                 <div class="form-group mb-3">
-                                    <label for="basicInput">Denda</label>
-                                    <input type="text" class="form-control mt-3" round id="denda" name="denda"
-                                        value="{{ old('denda') }}" readonly>
+                                    <label for="basicInput">Tanggal Kembali</label>
+                                    <input type="text" class="form-control mt-3" round id="tgl_kembali"
+                                        name="tgl_kembali" value="{{ old('tgl_kembali') }}" required readonly>
+                                    <input type="date" id="tanggal_pengembalian" name="tgl_pengembalian"
+                                        value="{{ $date }}" hidden readonly>
                                 </div>
                             </div>
                         </div>

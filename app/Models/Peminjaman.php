@@ -19,7 +19,6 @@ class Peminjaman extends Model
         'tgl_kembali',
         'tgl_pengembalian',
         'keterangan',
-        'denda',
         'created_at',
         'updated_at',
     ];

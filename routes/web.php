@@ -4,6 +4,8 @@ use App\Http\Controllers\admin\AdminController;
 use App\Http\Controllers\Admin\BookController;
 use App\Http\Controllers\Admin\DashboadController;
 use App\Http\Controllers\Admin\PeminjamanController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\LaporanController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,9 +24,13 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::redirect('/', 'admin/dashboard');
+Route::get('login', [AuthController::class, 'index'])->name('login');
+Route::post('post-login', [AuthController::class, 'post_login'])->name('post_login');
+Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::group([
-    'prefix' => 'admin'
+    'prefix' => 'admin',
+    'middleware' => ['auth']
 ], function () {
     Route::get('dashboard', [DashboadController::class, 'index'])->name('admin.dashboard.index');
     Route::get('user-control', [AdminController::class, 'index'])->name('admin.user.index');
@@ -44,4 +50,6 @@ Route::group([
     Route::get('peminjaman/get-user-name/{member_name}', [PeminjamanController::class, 'get_user_name']);
     Route::post('pengembalian', [PeminjamanController::class, 'store_pengembalian'])->name('admin.pengembalian.store');
     Route::get('pengembalian/get-book-pengembalian/{member_name}/{isbn}', [PeminjamanController::class, 'get_book_for_pengembalian']);
+    Route::get('laporan', [LaporanController::class, 'index'])->name('admin.laporan.index');
+    Route::post('laporan-filter', [LaporanController::class, 'filter'])->name('admin.laporan.filter');
 });

@@ -1,4 +1,4 @@
-@extends('auth.components.master')
+@extends('admin.auth.components.master')
 @section('title', 'LOGIN')
 
 @section('container')
@@ -8,13 +8,14 @@
     <form action="{{ route('post_login') }}" method="POST">
         @csrf
         <div class="form-group position-relative has-icon-left mb-4">
-            <input name="name" type="text" class="form-control form-control-xl" placeholder="Name">
+            <input name="username" type="text" class="form-control form-control-xl" placeholder="username"
+                value="{{ old('username') }}">
             <div class="form-control-icon">
                 <i class="bi bi-person"></i>
             </div>
         </div>
         <div class="form-group position-relative has-icon-left mb-4">
-            <input name="pin" type="password" class="form-control form-control-xl" placeholder="Password">
+            <input name="password" type="password" class="form-control form-control-xl" placeholder="Password">
             <div class="form-control-icon">
                 <i class="bi bi-shield-lock"></i>
             </div>

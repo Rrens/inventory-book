@@ -87,19 +87,11 @@
                     $('#tgl_kembali').val('')
 
                     $('#jumlah_buku_pinjam').val('')
-                    $('#denda').val('')
                 }
                 $('#isbn_pengembalian').attr('readonly', false);
                 // console.log(data['detail_peminjaman']['buku'][0][
                 //     'isbn'
                 // ])
-                if (tanggal_pengembalian < data['detail_peminjaman']['peminjaman'][0][
-                        'tgl_kembali'
-                    ]) {
-                    $('#denda').val(5000)
-                } else {
-                    $('#denda').val(0)
-                }
                 // $('#judul').val(data['detail_peminjaman']['buku'][0][
                 //     'judul'
                 // ])
