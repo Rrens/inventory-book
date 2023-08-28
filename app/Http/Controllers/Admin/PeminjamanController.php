@@ -168,7 +168,7 @@ class PeminjamanController extends Controller
 
         $buku = DetailPeminjaman::where('id_buku', Bukus::where('isbn', $request->isbn)->select('keterangan', 'id')->first()['id'])->first();
 
-        if ($buku->keterangan == 'pinjam') {
+        if (!empty($buku) && $buku->keterangan == 'pinjam') {
             Alert::toast('Buku Masih dipinjam', 'error');
             return back()->withInput();
         }

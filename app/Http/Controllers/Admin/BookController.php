@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Bukus;
+use App\Models\DetailPeminjaman;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -14,8 +15,9 @@ class BookController extends Controller
     {
         $active = 'book';
         $data = Bukus::all();
+        $peminjaman = DetailPeminjaman::select('keterangan', 'id_buku')->get();
         // Bukus::withTrashed()->restore();
-        return view('admin.page.book', compact('active', 'data'));
+        return view('admin.page.book', compact('active', 'data', 'peminjaman'));
     }
 
     public function store(Request $request)

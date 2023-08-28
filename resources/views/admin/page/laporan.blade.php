@@ -17,7 +17,7 @@
 
         body.theme-dark a {
             /* text-decoration: none !important;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    color: white; */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            color: white; */
             color: inherit;
             text-decoration: none !important;
         }
@@ -95,8 +95,6 @@
                                             <th>No</th>
                                             <th>ID Anggota</th>
                                             <th>Nama Member</th>
-                                            <th>Tanggal Pinjam</th>
-                                            <th>Tanggal Kembali</th>
                                             <th>Total Pinjam</th>
                                             <th>Detail</th>
                                         </tr>
@@ -117,13 +115,7 @@
                                                     {{ $item->User[0]->username }}
                                                 </td>
                                                 <td class="text-bold-500">
-                                                    {{ $item->Peminjaman[0]->tgl_pinjam }}
-                                                </td>
-                                                <td class="text-bold-500">
-                                                    {{ $item->Peminjaman[0]->tgl_kembali }}
-                                                </td>
-                                                <td class="text-bold-500">
-                                                    {{ $data->where('id_user', $item->User[0]->id)->count('id_user') }}
+                                                    {{ $data_detail->where('id_user', $item->User[0]->id)->count('id_user') }}
                                                 </td>
                                                 <td>
                                                     <a class="tagA btn btn-primary" href="#" data-bs-toggle="modal"
@@ -161,11 +153,13 @@
                                         <th>No</th>
                                         <th>ISBN</th>
                                         <th>Nama Buku</th>
+                                        <th>Tanggal Pinjam</th>
+                                        <th>Tanggal Kembali</th>
                                         <th>Status Pinjam</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($data->where('id', $item->id) as $item)
+                                    @foreach ($data_detail->where('id_user', $item->id_user) as $item)
                                         <tr>
                                             <td class="text-bold-500">
                                                 {{ $loop->iteration }}
@@ -175,6 +169,12 @@
                                             </td>
                                             <td class="text-bold-500">
                                                 {{ $item->Buku[0]->judul }}
+                                            </td>
+                                            <td class="text-bold-500">
+                                                {{ $item->Peminjaman[0]->tgl_pinjam }}
+                                            </td>
+                                            <td class="text-bold-500">
+                                                {{ $item->Peminjaman[0]->tgl_kembali }}
                                             </td>
                                             <td class="text-bold-500">
                                                 <span

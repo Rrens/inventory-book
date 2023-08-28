@@ -26,6 +26,16 @@ class BukuSeeder extends Seeder
                 'edisi' => '2019',
                 'bahasa' => 'Indonesia',
             ],
+            [
+                'isbn' => '1299290031',
+                'penerbit' => 'Gramedia',
+                'tahun_terbit' => 2001,
+                'pengarang' => 'I Gusti Agung Wicaksana',
+                'deskripsi_fisik' => 'Baik',
+                'judul' => 'Himalaya di tanah melayu',
+                'edisi' => '2019',
+                'bahasa' => 'Indonesia',
+            ],
         ]);
     }
 }
