@@ -3,7 +3,9 @@
         let data = e.target.value;
         if (data == 1) {
             $('#type_anggota').attr('hidden', false);
+            $('#password').attr('hidden', true);
         } else {
+            $('#password').attr('hidden', false);
             $('#type_anggota').attr('hidden', true);
         }
     })

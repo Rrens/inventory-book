@@ -17,7 +17,7 @@
 
         body.theme-dark a {
             /* text-decoration: none !important;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            color: white; */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    color: white; */
             color: inherit;
             text-decoration: none !important;
         }
@@ -274,11 +274,6 @@
                                         name="nama_instansi" value="SMAN 3 Lamongan" required readonly
                                         value="{{ old('nama_instansi') }}">
                                 </div>
-                                <div class="form-group mb-3">
-                                    <label for="basicInput">Alamat Lengkap</label>
-                                    <textarea type="text" class="form-control mt-3"round id="basicInput" name="alamat">{{ old('alamat') }}</textarea>
-                                </div>
-
                             </div>
                             <div class="flex-end">
                                 <div class="form-group mb-3">
@@ -307,10 +302,14 @@
                                     <input type="date" class="form-control mt-3" round id="basicInput"
                                         name="tgl_Lahir" value="{{ old('tgl_Lahir') }}" required>
                                 </div>
-                                <div class="form-group mb-3">
+                                <div class="form-group mb-3" id="password">
                                     <label for="basicInput">Password</label>
                                     <input type="text" class="form-control mt-3"round id="basicInput" name="password"
                                         value="{{ old('password') }}">
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="basicInput">Alamat Lengkap</label>
+                                    <textarea type="text" class="form-control mt-3"round id="basicInput" name="alamat">{{ old('alamat') }}</textarea>
                                 </div>
                             </div>
                         </div>
@@ -346,7 +345,7 @@
                         <h5 class="modal-title" id="exampleModalScrollableTitle">Edit Profile
                             {{ $item->jenis_user == 0 ? 'Admin' : 'Anggota' }}</h5>
                     </div>
-                    <form action="{{ route('admin.user.update') }}" method="post">
+                    <form action="{{ route('admin.user.update') }}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="modal-body">
                             <div class="d-flex justify-content-between">
@@ -506,29 +505,29 @@
                                 <div class="form-group mb-3">
                                     <label for="basicInput">Jenis User *</label>
                                     <input type="email" class="form-control mt-3" round
-                                        value="{{ $item->jenis_user == 0 ? 'Admin' : 'Anggota' }}">
+                                        value="{{ $item->jenis_user == 0 ? 'Admin' : 'Anggota' }}" readonly>
                                 </div>
                                 @if ($item->jenis_user == 1)
                                     <div class="form-group mb-3" id="type_anggota">
                                         <label for="basicInput">Type Anggota *</label>
                                         <input type="email" class="form-control mt-3"round
-                                            value="{{ $item->type_anggota == 0 ? 'Siswa' : 'Guru' }}">
+                                            value="{{ $item->type_anggota == 0 ? 'Siswa' : 'Guru' }}" readonly>
                                     </div>
                                 @endif
                                 <div class="form-group mb-3">
                                     <label for="basicInput">Email</label>
                                     <input type="email" class="form-control mt-3"round id="basicInput" name="email"
-                                        value="{{ $item->email }}">
+                                        readonly value="{{ $item->email }}">
                                 </div>
                                 <div class="form-group mb-3">
                                     <label for="basicInput">Kode Pos</label>
                                     <input type="number" class="form-control mt-3"round id="basicInput" name="kode_pos"
-                                        value="{{ $item->kode_pos }}">
+                                        readonly value="{{ $item->kode_pos }}">
                                 </div>
                                 <div class="form-group mb-3">
                                     <label for="basicInput">No HP *</label>
                                     <input type="number" class="form-control mt-3"round id="basicInput" name="phone"
-                                        required value="{{ $item->phone }}">
+                                        readonly required value="{{ $item->phone }}">
                                 </div>
                                 <div class="form-group mb-3">
                                     <label for="basicInput">Nama Instansi *</label>
@@ -536,11 +535,6 @@
                                         name="nama_instansi" value="SMAN 3 Lamongan" required readonly
                                         value="{{ $item->nama_instansi }}">
                                 </div>
-                                <div class="form-group mb-3">
-                                    <label for="basicInput">Alamat Lengkap</label>
-                                    <textarea type="text" class="form-control mt-3"round id="basicInput" name="alamat">{{ $item->alamat }}</textarea>
-                                </div>
-
                             </div>
                             <div class="flex-end">
                                 <div class="form-group mb-3">
@@ -551,28 +545,29 @@
                                 <div class="form-group mb-3">
                                     <label for="basicInput">Username *</label>
                                     <input type="text" class="form-control mt-3"round id="basicInput" name="username"
-                                        value="{{ $item->username }}">
+                                        readonly value="{{ $item->username }}">
                                 </div>
                                 <div class="form-group mb-3">
                                     <label for="basicInput">Jenis Kelamin *</label>
-                                    {{ $item->gender == 0 ? 'Admin' : 'Anggota' }}
+
+                                    <input type="text" class="form-control mt-3"round id="basicInput" name="gender"
+                                        value="{{ $item->gender == 0 ? 'Laki-laki' : 'Perempuan' }}" readonly>
                                 </div>
                                 <div class="form-group mb-3">
                                     <label for="basicInput">Tanggal Lahir *</label>
                                     <input type="date" class="form-control mt-3" round id="basicInput"
-                                        name="tgl_lahir" value="{{ $item->tanggal_lahir }}" required>
+                                        name="tgl_lahir" value="{{ $item->tanggal_lahir }}" readonly>
                                 </div>
                                 <div class="form-group mb-3">
-                                    <label for="basicInput">Password</label>
-                                    <input type="number" class="form-control mt-3"round id="basicInput"
-                                        name="password">
+                                    <label for="basicInput">Alamat Lengkap</label>
+                                    <textarea type="text" class="form-control mt-3"round id="basicInput" name="alamat" readonly>{{ $item->alamat }}</textarea>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group mb-3">
                             <label for="basicInput">Image</label>
-                            <input type="file" class="form-control mt-3"round id="basicInput" name="image"
-                                value="{{ $item->image }}">
+                            <img class="form-control mt-3" src="{{ asset('storage/uploads/user/' . $item->image) }}"
+                                alt="{{ !empty($item->image) ? asset('storage/uploads/user/' . $item->image) : 'Gambar tidak tersedia' }}">
                         </div>
                     </div>
                     <div class="modal-footer">

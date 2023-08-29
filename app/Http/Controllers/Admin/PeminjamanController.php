@@ -54,7 +54,13 @@ class PeminjamanController extends Controller
     public function get_book_id($isbn)
     {
         try {
-            $book = Bukus::where('isbn', $isbn)->select('isbn', 'judul')->first();
+            $book = Bukus::where('isbn', $isbn)->select('isbn', 'judul', 'id')->first();
+            if (!empty(DetailPeminjaman::where('id_buku', $book->id)->where('keterangan', 'pinjam')->first())) {
+                return response()->json([
+                    'status' => 'Failed',
+                    'keterangan' => 'Buku Masih dipinjam'
+                ], 200);
+            }
             return response()->json([
                 'status' => 'Success',
                 'data_buku' => $book
@@ -73,9 +79,17 @@ class PeminjamanController extends Controller
             $user = User::where('username', $member_name)->first();
             $buku = Bukus::Where('isbn', $isbn)->select('id')->first();
 
+            if (empty($buku) || empty($user)) {
+                return response()->json([
+                    'status' => 'Failed',
+                    'keterangan' => 'Buku tidak ditemukan'
+                ], 200);
+            }
+
             $detail_buku = DetailPeminjaman::with('Buku')
                 ->where('id_user', $user->id)
                 ->where('id_buku', $buku->id)
+                ->where('keterangan', 'pinjam')
                 ->first();
 
             if (empty($detail_buku)) {
@@ -115,28 +129,28 @@ class PeminjamanController extends Controller
                 ], 200);
             }
 
-            if (DetailPeminjaman::where('id_user', $user->id)->select('keterangan')->first()['keterangan'] == 'selesai') {
-                return response()->json([
-                    'status' => 'Failed',
-                    'keterangan' => 'Tidak ada pinjaman'
-                ], 200);
-            } else {
+            // if (DetailPeminjaman::where('id_user', $user->id)->where('keterangan', '!=', 'selesai')->get()) {
+            //     dd(empty(DetailPeminjaman::where('id_user', $user->id)->where('keterangan', 'pinjam')->latest()->first()));
+            //     return response()->json([
+            //         'status' => 'Failed',
+            //         'keterangan' => 'Pinjaman Telah dikembalikan'
+            //     ], 200);
+            // }
 
-                $peminjaman_detail = DetailPeminjaman::with('peminjaman', 'Buku')->whereHas('Peminjaman', function ($query) {
-                    $query->select('tgl_kembali', 'tgl_pinjam');
-                })
-                    ->where('id_user', $user->id)
-                    // ->select('tgl_kembali', 'tgl_pinjam')
-                    ->first();
-                $detail_riwayat = DetailPeminjaman::where('id_user', $user->id)
-                    ->count('id_user');
-                return response()->json([
-                    'status' => 'Success',
-                    'data_user' => $user,
-                    'detail_peminjaman' => $peminjaman_detail,
-                    'detail_riwayat' => $detail_riwayat
-                ], 200);
-            }
+            $peminjaman_detail = DetailPeminjaman::with('peminjaman', 'Buku')->whereHas('Peminjaman', function ($query) {
+                $query->select('tgl_kembali', 'tgl_pinjam');
+            })
+                ->where('id_user', $user->id)
+                // ->select('tgl_kembali', 'tgl_pinjam')
+                ->first();
+            $detail_riwayat = DetailPeminjaman::where('id_user', $user->id)
+                ->count('id_user');
+            return response()->json([
+                'status' => 'Success',
+                'data_user' => $user,
+                'detail_peminjaman' => $peminjaman_detail,
+                'detail_riwayat' => $detail_riwayat
+            ], 200);
             // dd($user);
         } catch (Exception $error) {
             return response()->json([
@@ -185,7 +199,7 @@ class PeminjamanController extends Controller
         $peminjaman_detail->keterangan = 'pinjam';
         $peminjaman_detail->save();
 
-        Alert::toast('Sukses Meminjam', 'Success');
+        Alert::toast('Sukses Meminjam', 'success');
         return back();
     }
 
@@ -193,8 +207,9 @@ class PeminjamanController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'member_name' => 'required',
+            'tgl_pengembalian' => 'required',
             // 'tgl_pinjam' => 'required',
-            // 'isbn' => 'required',
+            'isbn' => 'required',
             // 'judul_buku' => 'required',
         ]);
 
@@ -202,15 +217,25 @@ class PeminjamanController extends Controller
             Alert::toast($validator->messages()->all(), 'error');
             return back()->withInput();
         }
+        try {
+            //code...
+            $buku = Bukus::where('isbn', $request->isbn)->first();
+            $peminjaman_detail = DetailPeminjaman::where('id_user', User::where('username', $request->member_name)
+                ->select('id')
+                ->first()['id'])
+                ->where('id_buku', $buku->id)
+                ->where('keterangan', 'pinjam')->first();
+            $peminjaman_detail->keterangan = 'selesai';
+            $peminjaman_detail->save();
 
+            $peminjaman = Peminjaman::where('id', $peminjaman_detail->id_peminjaman)->first();
+            $peminjaman->tgl_pengembalian = $request->tgl_pengembalian;
+            // dd($request->all(),  $peminjaman);
+            $peminjaman->save();
+        } catch (Exception $error) {
+            dd($error);
+        }
         // dd(User::where('username', $request->member_name)->select('id')->first()['id']);
-        $peminjaman_detail = DetailPeminjaman::where('id_user', User::where('username', $request->member_name)->select('id')->first()['id'])->first();
-        $peminjaman_detail->keterangan = 'selesai';
-        $peminjaman_detail->save();
-
-        $peminjaman = Peminjaman::where('id', $peminjaman_detail->id_peminjaman)->first();
-        $peminjaman->tgl_pengembalian = $request->tgl_pengembalian;
-        $peminjaman->save();
 
         Alert::toast('Success add Pengembalian', 'success');
         return back();

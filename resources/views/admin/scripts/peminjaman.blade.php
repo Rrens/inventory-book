@@ -21,8 +21,17 @@
             url: `/admin/peminjaman/get-book-id/${isbn}`,
             method: 'GET',
             success: (data) => {
+                console.log(data)
+                if (data['status'] == 'Failed') {
+                    alert(data['keterangan']);
+
+                    $('#judul_buku').val('');
+                    $('#isbn').val('');
+                } else {
+                    $('#judul_buku').val(data['data_buku']['judul']);
+
+                }
                 // console.log(data['data_buku']['judul'])
-                $('#judul_buku').val(data['data_buku']['judul']);
             },
         })
     })
@@ -62,6 +71,12 @@
             url: `/admin/pengembalian/get-book-pengembalian/${nama_member}/${isbn}`,
             method: 'GET',
             success: (data) => {
+                if (data['status'] == 'Failed') {
+                    alert(data['keterangan']);
+                    $('#judul').val('')
+                    $('#isbn_pengembalian').val('')
+
+                }
                 $('#judul').val(data['data_buku']['buku'][0][
                     'judul'
                 ])

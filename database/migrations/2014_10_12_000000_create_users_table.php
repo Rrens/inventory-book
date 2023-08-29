@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('type_anggota')->nullable();
             $table->date('tanggal_lahir');
             $table->date('tanggal_input');
-            $table->string('password');
+            $table->string('password')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

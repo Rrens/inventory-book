@@ -26,7 +26,7 @@ class AdminController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'type_anggota' => 'required',
-            'email' => 'email',
+            // 'email' => 'email',
             'kode_pos' => 'numeric|digits:5',
             'jenis_user' => 'numeric',
             'alamat' => 'required',
@@ -37,6 +37,21 @@ class AdminController extends Controller
             'phone' => 'required',
             'password' => 'required'
         ]);
+
+        if ($request->has('jenis_user')) {
+            $validator = Validator::make($request->all(), [
+                'type_anggota' => 'required',
+                // 'email' => 'email',
+                'kode_pos' => 'numeric|digits:5',
+                'jenis_user' => 'numeric',
+                'alamat' => 'required',
+                'nama_instansi' => 'required',
+                'tgl_Lahir' => 'required|date',
+                'username' => 'required',
+                'gender' => 'required',
+                'phone' => 'required',
+            ]);
+        }
 
         if ($validator->fails()) {
             Alert::toast($validator->messages()->all(), 'error');
@@ -52,9 +67,9 @@ class AdminController extends Controller
         if ($request->file('image')) {
             $image = $request->file('image');
             if ($request->jenis_user == 0) {
-                $image_name = time() . 'admin-' . $request->username  . $image->getClientOriginalExtension();
+                $image_name = time() . '-admin-' . $request->username . '.' . $image->getClientOriginalExtension();
             } else {
-                $image_name = time() . 'user-' . $request->username  . $image->getClientOriginalExtension();
+                $image_name = time() . '-user-' . $request->username . '.' . $image->getClientOriginalExtension();
             }
             Storage::putFileAs('public/uploads/user/', $image, $image_name);
             $user->image = $image_name;
@@ -77,7 +92,7 @@ class AdminController extends Controller
     {
         $commonRules = [
             'id' => 'required',
-            'email' => 'email',
+            // 'email' => 'email',
             'kode_pos' => 'numeric|digits:5',
             'jenis_user' => 'numeric',
             'alamat' => 'required',
@@ -122,9 +137,9 @@ class AdminController extends Controller
         if ($request->file('image')) {
             $image = $request->file('image');
             if ($request->jenis_user == 0) {
-                $image_name = time() . 'admin-' . $request->username  . $image->getClientOriginalExtension();
+                $image_name = time() . '-admin-' . $request->username . '.' . $image->getClientOriginalExtension();
             } else {
-                $image_name = time() . 'user-' . $request->username  . $image->getClientOriginalExtension();
+                $image_name = time() . '-user-' . $request->username . '.' . $image->getClientOriginalExtension();
             }
             Storage::putFileAs('public/uploads/user/', $image, $image_name);
             $user->image = $image_name;

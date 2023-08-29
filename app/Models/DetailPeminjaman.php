@@ -18,6 +18,7 @@ class DetailPeminjaman extends Model
         'id_peminjaman',
         'id_user',
         'id_buku',
+        'keterangan',
         'created_at',
         'updated_at',
     ];
