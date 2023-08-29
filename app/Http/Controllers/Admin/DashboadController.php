@@ -17,7 +17,7 @@ class DashboadController extends Controller
         $data = DB::table('detail_peminjaman as dp')
             ->select(DB::raw('count(p.tgl_pinjam) as total_pinjam'), 'p.tgl_pinjam')
             ->join('peminjaman as p', 'p.id', '=', 'dp.id_peminjaman')
-            ->groupBy('p.id')
+            ->groupBy('p.tgl_pinjam')
             ->orderBy('p.tgl_pinjam', 'DESC')
             ->get();
 

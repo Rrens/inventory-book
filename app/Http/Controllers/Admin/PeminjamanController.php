@@ -129,14 +129,6 @@ class PeminjamanController extends Controller
                 ], 200);
             }
 
-            // if (DetailPeminjaman::where('id_user', $user->id)->where('keterangan', '!=', 'selesai')->get()) {
-            //     dd(empty(DetailPeminjaman::where('id_user', $user->id)->where('keterangan', 'pinjam')->latest()->first()));
-            //     return response()->json([
-            //         'status' => 'Failed',
-            //         'keterangan' => 'Pinjaman Telah dikembalikan'
-            //     ], 200);
-            // }
-
             $peminjaman_detail = DetailPeminjaman::with('peminjaman', 'Buku')->whereHas('Peminjaman', function ($query) {
                 $query->select('tgl_kembali', 'tgl_pinjam');
             })
@@ -144,6 +136,7 @@ class PeminjamanController extends Controller
                 // ->select('tgl_kembali', 'tgl_pinjam')
                 ->first();
             $detail_riwayat = DetailPeminjaman::where('id_user', $user->id)
+                ->where('keterangan', 'pinjam')
                 ->count('id_user');
             return response()->json([
                 'status' => 'Success',
