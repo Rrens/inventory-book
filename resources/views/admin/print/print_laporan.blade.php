@@ -435,46 +435,61 @@
     <table>
         <tr>
             <td>ID ANGGOTA</td>
-            <td>: {{ $laporan->user[0]->id }}</td>
+            <td>: {{ $data[0]->User[0]->id }}</td>
         </tr>
         <tr>
             <td>NAMA</td>
-            <td>: {{ $laporan->user[0]->name }}</td>
+            <td>: {{ $data[0]->User[0]->username }}</td>
         </tr>
         <tr>
             <td>ALAMAT</td>
-            <td>: {{ $laporan->user[0]->address }}</td>
+            <td>: {{ $data[0]->User[0]->alamat }}</td>
         </tr>
     </table>
 
     <br /><br />
-    <p>List Barang dibeli</p>
+    <p>List Buku</p>
 
     <table class="sicycatablemanual">
         <tr>
-            <th>CREDIT AWAL</th>
-            <th>JUMLAH BAYAR</th>
-            <th>SISA</th>
-            <th>KETERANGAN</th>
+            <th>No</th>
+            <th>ISBN</th>
+            <th>Nama Buku</th>
+            <th>Tanggal Pinjam</th>
+            <th>Tanggal Kembali</th>
+            <th>Status</th>
         </tr>
-
-        {{-- @foreach ($laporan as $item) --}}
-        <tr class="odd">
-            <td>
-                Rp. {{ number_format($laporan->user[0]->credit + $laporan->credit_masuk) }}
-                <br>
-            </td>
-            <td>
-                Rp. {{ number_format($laporan->credit_masuk) }}
-                <br>
-            </td>
-            <td>
-                Rp.
-                {{ number_format($laporan->user[0]->credit == 0 ? 0 : $laporan->user[0]->credit - $laporan->credit_masuk + $laporan->credit_masuk) }}
-            </td>
-            <td>{{ $laporan->user[0]->credit == 0 ? 'Lunas' : 'Belum Lunas' }}</td>
-        </tr>
-        {{-- @endforeach --}}
+        @php
+            // dd($data);
+        @endphp
+        @foreach ($data as $item)
+            <tr class="odd">
+                <td>
+                    {{ $loop->iteration }}
+                    <br>
+                </td>
+                <td>
+                    {{ $item->Buku[0]->isbn }}
+                    <br>
+                </td>
+                <td>
+                    {{ $item->Buku[0]->judul }}
+                    <br>
+                </td>
+                <td>
+                    {{ $item->Peminjaman[0]->tgl_pinjam }}
+                    <br>
+                </td>
+                <td>
+                    {{ $item->Peminjaman[0]->tgl_kembali }}
+                    <br>
+                </td>
+                <td>
+                    {{ $item->keterangan }}
+                    <br>
+                </td>
+            </tr>
+        @endforeach
 
     </table>
 

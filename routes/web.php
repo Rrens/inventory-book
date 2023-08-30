@@ -52,4 +52,5 @@ Route::group([
     Route::get('pengembalian/get-book-pengembalian/{member_name}/{isbn}', [PeminjamanController::class, 'get_book_for_pengembalian']);
     Route::get('laporan', [LaporanController::class, 'index'])->name('admin.laporan.index');
     Route::post('laporan-filter', [LaporanController::class, 'filter'])->name('admin.laporan.filter');
+    Route::post('print-laporan', [LaporanController::class, 'print_laporan'])->name('admin.laporan.print');
 });

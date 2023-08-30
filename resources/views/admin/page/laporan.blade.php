@@ -17,7 +17,7 @@
 
         body.theme-dark a {
             /* text-decoration: none !important;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            color: white; */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        color: white; */
             color: inherit;
             text-decoration: none !important;
         }
@@ -78,7 +78,7 @@
                         <div class="card">
                             <div class="card-header d-flex justify-content-between">
                                 <div class="flex-start">
-                                    <p>Laporan Table</p>
+                                    <a href="#" class="btn btn-outline-success">Print</a>
                                 </div>
                                 <div class="flex-end">
                                     <form action="{{ route('admin.laporan.filter') }}" method="post">
@@ -96,7 +96,7 @@
                                             <th>ID Anggota</th>
                                             <th>Nama Member</th>
                                             <th>Total Pinjam</th>
-                                            <th>Detail</th>
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -118,10 +118,19 @@
                                                     {{ $data_detail->where('id_user', $item->User[0]->id)->count('id_user') }}
                                                 </td>
                                                 <td>
-                                                    <a class="tagA btn btn-primary" href="#" data-bs-toggle="modal"
-                                                        data-bs-target="#modalDetailPeminjaman{{ $item->id }}"><i
-                                                            class="bi bi-exclamation-triangle-fill"></i>
-                                                    </a>
+                                                    <form action="{{ route('admin.laporan.print') }}" method="post">
+                                                        @csrf
+                                                        <a class="tagA btn btn-primary" href="#"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#modalDetailPeminjaman{{ $item->id }}"><i
+                                                                class="bi bi-info-lg"></i>
+                                                        </a>
+                                                        <input type="number" value="{{ $item->id_user }}" name="id_user"
+                                                            hidden>
+                                                        <button class="tagA btn btn-success" type="submit"><i
+                                                                class="bi bi-printer"></i>
+                                                        </button>
+                                                    </form>
                                                 </td>
                                             </tr>
                                         @endforeach
