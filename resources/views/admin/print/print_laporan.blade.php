@@ -4,7 +4,7 @@
 
 <head>
     <title>RUMAH SAKIT MUHAMMADIYAH LAMONGAN</title>
-    <style>
+    {{-- <style>
         .box {
             display: block;
             height: 10px;
@@ -60,7 +60,6 @@
 
         /*----------------------------------------------------------
       CONTENT
-----------------------------------------------------------*/
 
 
         .MenuContent {
@@ -412,7 +411,7 @@
         span.footnote ul li {
             text-indent: -5px;
         }
-    </style>
+    </style> --}}
 </head>
 
 <body>
@@ -428,44 +427,54 @@
 
 
     <p style="text-align:center;font-weight: bold;font-size: 14px;margin-bottom:3px;padding-bottom:0px ">KOPERASI RUMAH
-        SAKIT MUHAMMADIYAH LAMONGAN
+        PERPUSTAKAAN SMA NEGERI 3 LAMONGAN
     </p>
 
     <br />
     <table>
         <tr>
-            <td>ID ANGGOTA</td>
-            <td>: {{ $data[0]->User[0]->id }}</td>
+            <td>ID PEMINJAMAN</td>
+            <td>: {{ $data[0]->id_peminjaman }}</td>
         </tr>
         <tr>
-            <td>NAMA</td>
-            <td>: {{ $data[0]->User[0]->username }}</td>
+            <td>Tanggal</td>
+            <td>: {{ $data[0]->Peminjaman[0]->tgl_pinjam }}</td>
         </tr>
         <tr>
-            <td>ALAMAT</td>
-            <td>: {{ $data[0]->User[0]->alamat }}</td>
+            <td>Jumlah Buku Dipinjam</td>
+            <td>: {{ $data->where('keterangan', 'pinjam')->count() }}</td>
+        </tr>
+        <tr>
+            <td>Jumlah Buku Kembali</td>
+            <td>: {{ $data->where('keterangan', 'ready')->count() }}</td>
+        </tr>
+        <tr>
+            <td>Jumlah Buku Terlambat</td>
+            <td>: {{ $data->where('keterangan', 'Telat')->count() }}</td>
         </tr>
     </table>
 
     <br /><br />
-    <p>List Buku</p>
+    <p>List Data</p>
 
     <table class="sicycatablemanual">
         <tr>
             <th>No</th>
+            <th>Nama Peminjam</th>
             <th>ISBN</th>
-            <th>Nama Buku</th>
+            <th>Judul Buku</th>
             <th>Tanggal Pinjam</th>
             <th>Tanggal Kembali</th>
             <th>Status</th>
         </tr>
-        @php
-            // dd($data);
-        @endphp
         @foreach ($data as $item)
             <tr class="odd">
                 <td>
                     {{ $loop->iteration }}
+                    <br>
+                </td>
+                <td>
+                    {{ $item->User[0]->username }}
                     <br>
                 </td>
                 <td>

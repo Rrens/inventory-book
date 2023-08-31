@@ -20,6 +20,11 @@ class PeminjamanController extends Controller
         $active = 'peminjaman';
         $date = Carbon::now()->toDateString();
         $data = DetailPeminjaman::with('Buku', 'User', 'Peminjaman')->get();
+        foreach ($data as $item) {
+            if ($item->Peminjaman[0]->tgl_pinjam < Carbon::today()->toDateString()) {
+                DetailPeminjaman::where('id', $item->id)->update(['keterangan' => 'Telat']);
+            }
+        }
         $detail_riwayat = DetailPeminjaman::where('keterangan', 'pinjam')->get();
         return view('admin.page.Peminjaman', compact('active', 'date', 'data', 'detail_riwayat'));
     }

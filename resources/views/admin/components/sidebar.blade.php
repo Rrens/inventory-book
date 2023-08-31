@@ -76,7 +76,7 @@
                 <li class="sidebar-item">
                     <a href="{{ route('logout') }}" class="sidebar-link">
                         <i class="bi bi-door-open-fill"></i>
-                        <span>Logouts</span>
+                        <span>Logout</span>
                     </a>
                 </li>
             </ul>

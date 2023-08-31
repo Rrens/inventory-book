@@ -17,7 +17,7 @@
 
         body.theme-dark a {
             /* text-decoration: none !important;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                color: white; */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            color: white; */
             color: inherit;
             text-decoration: none !important;
         }
@@ -74,6 +74,47 @@
         <section class="row">
             <div class="col-12 col-lg-12">
                 <div class="row">
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <div class="card">
+                            <div class="card-body px-4 py-4-5">
+                                <div class="row">
+                                    <h6 class="text-muted font-semibold">
+                                        Buku kembali
+                                    </h6>
+                                    <h6 class="font-extrabold mb-0">{{ $for_count->where('keterangan', 'ready')->count() }}
+                                    </h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <div class="card">
+                            <div class="card-body px-4 py-4-5">
+                                <div class="row">
+                                    <h6 class="text-muted font-semibold">
+                                        Buku terlambat
+                                    </h6>
+                                    <h6 class="font-extrabold mb-0">{{ $for_count->where('keterangan', 'Telat')->count() }}
+                                    </h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <div class="card">
+                            <div class="card-body px-4 py-4-5">
+                                <div class="row">
+                                    <h6 class="text-muted font-semibold">
+                                        Buku dipinjam
+                                    </h6>
+                                    <h6 class="font-extrabold mb-0">{{ $for_count->where('keterangan', 'pinjam')->count() }}
+                                    </h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header d-flex justify-content-between">
@@ -91,10 +132,11 @@
                                 <table class="table table-striped" id="table1">
                                     <thead>
                                         <tr>
-                                            <th>No</th>
-                                            <th>ID Anggota</th>
-                                            <th>Nama Member</th>
-                                            <th>Total Pinjam</th>
+                                            <th>ID Peminjaman</th>
+                                            <th>Tanggal</th>
+                                            <th>Buku Dipinjam</th>
+                                            <th>Buku Kembali</th>
+                                            <th>Buku Terlambat</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -102,16 +144,19 @@
                                         @foreach ($data as $item)
                                             <tr>
                                                 <td class="text-bold-500">
-                                                    {{ $loop->iteration }}
+                                                    {{ $item->id_peminjaman }}
                                                 </td>
                                                 <td class="text-bold-500">
-                                                    {{ $item->User[0]->id }}
+                                                    {{ $item->tgl_pinjam }}
                                                 </td>
                                                 <td class="text-bold-500">
-                                                    {{ $item->User[0]->username }}
+                                                    {{ $for_count->where('tgl_pinjam', $date)->where('keterangan', 'pinjam')->count() }}
                                                 </td>
                                                 <td class="text-bold-500">
-                                                    {{ $data_detail->where('id_user', $item->User[0]->id)->count('id_user') }}
+                                                    {{ $for_count->where('tgl_pinjam', $date)->where('keterangan', 'ready')->count() }}
+                                                </td>
+                                                <td class="text-bold-500">
+                                                    {{ $for_count->where('tgl_pinjam', $date)->where('keterangan', 'Telat')->count() }}
                                                 </td>
                                                 <td>
                                                     <form action="{{ route('admin.laporan.print') }}" method="post">
@@ -121,11 +166,8 @@
                                                             data-bs-target="#modalDetailPeminjaman{{ $item->id }}"><i
                                                                 class="bi bi-info-lg"></i>
                                                         </a>
-                                                        <input type="number" value="{{ $item->id_user }}" name="id_user"
-                                                            hidden>
-                                                        <input type="date" value="{{ $date }}" name="date"
-                                                            hidden>
-
+                                                        <input type="date" value="{{ $item->tgl_pinjam }}"
+                                                            name="date" hidden>
                                                         <button class="tagA btn btn-success" type="submit"><i
                                                                 class="bi bi-printer"></i>
                                                         </button>
@@ -159,18 +201,22 @@
                                 <thead>
                                     <tr>
                                         <th>No</th>
+                                        <th>Nama Peminjam</th>
                                         <th>ISBN</th>
-                                        <th>Nama Buku</th>
+                                        <th>Judul</th>
                                         <th>Tanggal Pinjam</th>
                                         <th>Tanggal Kembali</th>
                                         <th>Status Pinjam</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($data_detail->where('id_user', $item->id_user) as $item)
+                                    @foreach ($data_detail->where('tanggal', $item->tgl_pinjam) as $item)
                                         <tr>
                                             <td class="text-bold-500">
                                                 {{ $loop->iteration }}
+                                            </td>
+                                            <td class="text-bold-500">
+                                                {{ $item->User[0]->username }}
                                             </td>
                                             <td class="text-bold-500">
                                                 {{ $item->Buku[0]->isbn }}
@@ -186,7 +232,7 @@
                                             </td>
                                             <td class="text-bold-500">
                                                 <span
-                                                    class="btn btn-{{ $item->keterangan == 'pinjam' ? 'danger' : 'success' }}">{{ $item->keterangan }}</span>
+                                                    class="btn btn-{{ $item->keterangan == 'Telat' ? 'danger' : ($item->keterangan == 'pinjam' ? 'warning' : 'success') }}">{{ $item->keterangan == 'Telat' ? 'Terlambat' : ($item->keterangan == 'pinjam' ? 'Dipinjam' : 'Kembali') }}</span>
                                             </td>
                                         </tr>
                                     @endforeach
