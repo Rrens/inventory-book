@@ -17,7 +17,7 @@
 
         body.theme-dark a {
             /* text-decoration: none !important;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    color: white; */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        color: white; */
             color: inherit;
             text-decoration: none !important;
         }
@@ -77,7 +77,7 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header d-flex justify-content-between">
-                                <p>Admin Table</p>
+                                <p>Anggota Table</p>
                                 <button class="btn btn-primary" data-bs-toggle="modal"
                                     data-bs-target="#modalTambahUser">Tambah</button>
                             </div>
@@ -86,8 +86,8 @@
                                     <thead>
                                         <tr>
                                             <th>No</th>
-                                            <th>ID Admin</th>
-                                            <th>Username</th>
+                                            <th>ID Member</th>
+                                            <th>Nama Member</th>
                                             <th>Alamat</th>
                                             <th>No HP</th>
                                             <th>Gender</th>
@@ -97,7 +97,7 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($data as $item)
-                                            @if ($item->jenis_user == 0)
+                                            @if ($item->jenis_user == 1)
                                                 <tr>
                                                     <td class="text-bold-500">
                                                         {{ $loop->iteration }}
@@ -140,6 +140,7 @@
                                             @endif
                                         @endforeach
                                     </tbody>
+
                                 </table>
                             </div>
                         </div>
@@ -147,7 +148,7 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header d-flex justify-content-between">
-                                <p>Anggota Table</p>
+                                <p>Admin Table</p>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -155,8 +156,8 @@
                                         <thead>
                                             <tr>
                                                 <th>No</th>
-                                                <th>ID Member</th>
-                                                <th>Nama Member</th>
+                                                <th>ID Admin</th>
+                                                <th>Username</th>
                                                 <th>Alamat</th>
                                                 <th>No HP</th>
                                                 <th>Gender</th>
@@ -166,7 +167,7 @@
                                         </thead>
                                         <tbody>
                                             @foreach ($data as $item)
-                                                @if ($item->jenis_user == 1)
+                                                @if ($item->jenis_user == 0)
                                                     <tr>
                                                         <td class="text-bold-500">
                                                             {{ $loop->iteration }}
