@@ -90,6 +90,7 @@ class PeminjamanController extends Controller
                 ->where('id_user', $user->id)
                 ->where('id_buku', $buku->id)
                 ->where('keterangan', 'pinjam')
+                ->latest()
                 ->first();
 
             if (empty($detail_buku)) {
@@ -180,6 +181,10 @@ class PeminjamanController extends Controller
             return back()->withInput();
         }
 
+        $for_keterangan_buku = Bukus::where('isbn', $request->isbn)->first();
+        $for_keterangan_buku->keterangan = 'pinjam';
+        $for_keterangan_buku->save();
+
         $peminjaman = new Peminjaman();
         $peminjaman->tgl_pinjam = $request->tanggal_pinjam;
         $peminjaman->tgl_kembali = $request->tanggal_kembali;
@@ -213,12 +218,16 @@ class PeminjamanController extends Controller
         try {
             //code...
             $buku = Bukus::where('isbn', $request->isbn)->first();
+
+            $buku->keterangan = 'ready';
+            $buku->save();
+
             $peminjaman_detail = DetailPeminjaman::where('id_user', User::where('username', $request->member_name)
                 ->select('id')
                 ->first()['id'])
                 ->where('id_buku', $buku->id)
                 ->where('keterangan', 'pinjam')->first();
-            $peminjaman_detail->keterangan = 'selesai';
+            $peminjaman_detail->keterangan = 'ready';
             $peminjaman_detail->save();
 
             $peminjaman = Peminjaman::where('id', $peminjaman_detail->id_peminjaman)->first();
