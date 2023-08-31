@@ -15,7 +15,7 @@ class BookController extends Controller
     {
         $active = 'book';
         $data = Bukus::all();
-        $peminjaman = DetailPeminjaman::select('keterangan', 'id_buku');
+        $peminjaman = DetailPeminjaman::with('Buku')->select('keterangan', 'id_buku');
         // Bukus::withTrashed()->restore();
         return view('admin.page.book', compact('active', 'data', 'peminjaman'));
     }
