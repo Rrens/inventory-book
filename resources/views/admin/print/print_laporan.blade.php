@@ -494,7 +494,7 @@
                     <br>
                 </td>
                 <td>
-                    {{ $item->keterangan }}
+                    {{ $item->keterangan == 'Telat' ? 'Terlambat' : ($item->keterangan == 'pinjam' ? 'Dipinjam' : 'Kembali') }}
                     <br>
                 </td>
             </tr>

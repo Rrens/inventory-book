@@ -17,7 +17,7 @@
 
         body.theme-dark a {
             /* text-decoration: none !important;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        color: white; */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    color: white; */
             color: inherit;
             text-decoration: none !important;
         }
@@ -115,7 +115,7 @@
                                                         {{ $item->phone }}
                                                     </td>
                                                     <td class="text-bold-500">
-                                                        {{ $item->gender == 0 ? 'Laki-laki' : 'Perempuan' }}
+                                                        {{ $item->gender == 'Laki-laki' ? 'Laki-laki' : 'Perempuan' }}
                                                     </td>
                                                     <td>
                                                         <a class="tagA btn btn-outline-warning" href="#"
@@ -185,7 +185,7 @@
                                                             {{ $item->phone }}
                                                         </td>
                                                         <td class="text-bold-500">
-                                                            {{ $item->gender == 0 ? 'Laki-laki' : 'Perempuan' }}
+                                                            {{ $item->gender == 'Laki-laki' ? 'Laki-laki' : 'Perempuan' }}
                                                         </td>
                                                         <td>
                                                             <a class="tagA btn btn-outline-warning" href="#"
@@ -260,7 +260,7 @@
                                         value="{{ old('email') }}">
                                 </div>
                                 <div class="form-group mb-3">
-                                    <label for="basicInput">Kode Pos</label>
+                                    <label for="basicInput">Kode Pos *</label>
                                     <input type="tel" class="form-control mt-3"round id="basicInput" name="kode_pos"
                                         value="{{ old('kode_pos') }}" maxlength="5">
                                 </div>
@@ -292,9 +292,11 @@
                                     <label for="basicInput">Jenis Kelamin *</label>
                                     <select class="form-select mt-3" id="basicSelect" name="gender" required>
                                         <option selected hidden>Pilih Jenis Kelamin</option>
-                                        <option value="Laki-laki">Laki-laki
+                                        <option value="Laki-laki" {{ old('gender') == 'Laki-laki' ? 'selected' : '' }}>
+                                            Laki-laki
                                         </option>
-                                        <option value="Perempuan">Perempuan
+                                        <option value="Perempuan" {{ old('gender') == 'Perempuan' ? 'selected' : '' }}>
+                                            Perempuan
                                         </option>
                                     </select>
                                 </div>
@@ -393,18 +395,24 @@
                                             name="phone" required value="{{ $item->phone }}">
                                     </div>
                                     <div class="form-group mb-3">
+                                        <label for="basicInput">Alamat Lengkap</label>
+                                        <textarea type="text" class="form-control mt-3"round id="basicInput" name="alamat">{{ $item->alamat }}</textarea>
+                                    </div>
+                                    @if ($item->jenis_user == 0)
+                                        <div class="form-group mb-3">
+                                            <label for="basicInput">Password</label>
+                                            <input type="number" class="form-control mt-3"round id="basicInput"
+                                                name="password">
+                                        </div>
+                                    @endif
+                                </div>
+                                <div class="flex-end">
+                                    <div class="form-group mb-3">
                                         <label for="basicInput">Nama Instansi *</label>
                                         <input type="text" class="form-control mt-3" round id="basicInput"
                                             name="nama_instansi" value="SMAN 3 Lamongan" required readonly
                                             value="{{ $item->nama_instansi }}">
                                     </div>
-                                    <div class="form-group mb-3">
-                                        <label for="basicInput">Alamat Lengkap</label>
-                                        <textarea type="text" class="form-control mt-3"round id="basicInput" name="alamat">{{ $item->alamat }}</textarea>
-                                    </div>
-
-                                </div>
-                                <div class="flex-end">
                                     <div class="form-group mb-3">
                                         <label for="basicInput">Tanggal Input *</label>
                                         <input type="date" class="form-control mt-3"round id="basicInput"
@@ -429,11 +437,6 @@
                                         <label for="basicInput">Tanggal Lahir *</label>
                                         <input type="date" class="form-control mt-3" round id="basicInput"
                                             name="tgl_lahir" value="{{ $item->tanggal_lahir }}" required>
-                                    </div>
-                                    <div class="form-group mb-3">
-                                        <label for="basicInput">Password</label>
-                                        <input type="number" class="form-control mt-3"round id="basicInput"
-                                            name="password">
                                     </div>
                                 </div>
                             </div>

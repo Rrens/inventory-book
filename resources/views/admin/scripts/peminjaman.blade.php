@@ -7,8 +7,8 @@
             success: (data) => {
                 // console.log(data)
                 $('#nama_member').val(data['data_user']['username']);
-                $('#member_type').val(data['data_user']['type_anggota'] == 0 ? 'Guru' :
-                    'Murid');
+                $('#member_type').val(data['data_user']['type_anggota'] == 0 ? 'Siswa' :
+                    'Guru');
                 $('#jumlah_pinjam').val(data['detail_riwayat']);
                 $('#jumlah_pinjam_belum_kembali').val(data['detail_riwayat_belum']);
             },
@@ -21,7 +21,7 @@
             url: `/admin/peminjaman/get-book-id/${isbn}`,
             method: 'GET',
             success: (data) => {
-                console.log(data)
+                // console.log(data)
                 if (data['status'] == 'Failed') {
                     alert(data['keterangan']);
 
@@ -44,8 +44,8 @@
             success: (data) => {
                 // console.log(data)
                 $('#nama_member_edit').val(data['data_user']['username']);
-                $('#member_type_edit').val(data['data_user']['type_anggota'] == 0 ? 'Guru' :
-                    'Murid');
+                $('#member_type_edit').val(data['data_user']['type_anggota'] == 0 ? 'Siswa' :
+                    'Guru');
                 $('#jumlah_pinjam_edit').val(data['detail_riwayat']);
                 $('#jumlah_pinjam_belum_kembali_edit').val(data['detail_riwayat_belum']);
             },

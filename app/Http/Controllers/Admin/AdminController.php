@@ -62,6 +62,7 @@ class AdminController extends Controller
         $user->username = $request->username;
         $user->email = $request->email;
         $user->gender = $request->gender;
+        // dd($user);
         $user->alamat = $request->alamat;
         $user->nama_instansi = $request->nama_instansi;
         if ($request->file('image')) {
