@@ -20,9 +20,15 @@ class PeminjamanController extends Controller
         $active = 'peminjaman';
         $date = Carbon::now()->toDateString();
         $data = DetailPeminjaman::with('Buku', 'User', 'Peminjaman')->get();
+        // dd($data);
         foreach ($data as $item) {
-            if ($item->Peminjaman[0]->tgl_pinjam < Carbon::today()->toDateString()) {
+            if ($item->Peminjaman[0]->tgl_kembali < Carbon::today()->toDateString()) {
                 DetailPeminjaman::where('id', $item->id)->update(['keterangan' => 'Telat']);
+            } else if ($item->keterangan == 'kembali') {
+                // dd('ini');
+                DetailPeminjaman::where('id', $item->id)->update(['keterangan' => 'kembali']);
+            } else {
+                DetailPeminjaman::where('id', $item->id)->update(['keterangan' => 'pinjam']);
             }
         }
         $detail_riwayat = DetailPeminjaman::where('keterangan', 'pinjam')->get();
@@ -98,6 +104,23 @@ class PeminjamanController extends Controller
                 ->latest()
                 ->first();
 
+            $check_telat = DetailPeminjaman::with('Buku')
+                ->where('id_user', $user->id)
+                ->where('id_buku', $buku->id)
+                ->where('keterangan', 'Telat')
+                ->latest()
+                ->first();
+
+            // dd($check_telat);
+
+            if (!empty($check_telat)) {
+                return response()->json([
+                    'status' => 'Success',
+                    'data_buku' => $check_telat
+                ], 200);
+            }
+
+
             if (empty($detail_buku)) {
                 return response()->json([
                     'status' => 'Failed',
@@ -108,7 +131,6 @@ class PeminjamanController extends Controller
                 'status' => 'Success',
                 'data_buku' => $detail_buku
             ], 200);
-            // dd($detail_buku);
         } catch (Exception $error) {
             return response()->json([
                 'status' => 'Error',
@@ -139,7 +161,6 @@ class PeminjamanController extends Controller
                 $query->select('tgl_kembali', 'tgl_pinjam');
             })
                 ->where('id_user', $user->id)
-                // ->select('tgl_kembali', 'tgl_pinjam')
                 ->first();
             $detail_riwayat = DetailPeminjaman::where('id_user', $user->id)
                 ->where('keterangan', 'pinjam')
@@ -150,7 +171,6 @@ class PeminjamanController extends Controller
                 'detail_peminjaman' => $peminjaman_detail,
                 'detail_riwayat' => $detail_riwayat
             ], 200);
-            // dd($user);
         } catch (Exception $error) {
             return response()->json([
                 'status' => 'Error',
@@ -167,7 +187,6 @@ class PeminjamanController extends Controller
             'tanggal_pinjam' => 'required|date',
             'tanggal_kembali' => 'required|date'
         ]);
-        // dd(Bukus::where('isbn', $request->isbn)->select('id')->first()['id']);
 
         if ($validator->fails()) {
             Alert::toast($validator->messages()->all(), 'error');
@@ -227,22 +246,26 @@ class PeminjamanController extends Controller
             $buku->keterangan = 'ready';
             $buku->save();
 
-            $peminjaman_detail = DetailPeminjaman::where('id_user', User::where('username', $request->member_name)
+            $id_user = User::where('username', $request->member_name)
                 ->select('id')
-                ->first()['id'])
-                ->where('id_buku', $buku->id)
-                ->where('keterangan', 'pinjam')->first();
-            $peminjaman_detail->keterangan = 'ready';
-            $peminjaman_detail->save();
+                ->first();
 
-            $peminjaman = Peminjaman::where('id', $peminjaman_detail->id_peminjaman)->first();
+            DetailPeminjaman::where('id_user', $id_user->id)
+                ->where('id_buku', $buku->id)
+                ->update(['keterangan' => 'kembali']);
+
+
+            $id_peminjaman = DetailPeminjaman::where('id_user', $id_user->id)
+                ->where('id_buku', $buku->id)
+                ->where('keterangan', 'kembali')
+                ->first();
+
+            $peminjaman = Peminjaman::where('id', $id_peminjaman->id_peminjaman)->first();
             $peminjaman->tgl_pengembalian = $request->tgl_pengembalian;
-            // dd($request->all(),  $peminjaman);
             $peminjaman->save();
         } catch (Exception $error) {
             dd($error);
         }
-        // dd(User::where('username', $request->member_name)->select('id')->first()['id']);
 
         Alert::toast('Success add Pengembalian', 'success');
         return back();

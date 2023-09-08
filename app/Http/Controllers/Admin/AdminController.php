@@ -15,7 +15,6 @@ class AdminController extends Controller
 {
     public function index()
     {
-        // User::withTrashed()->restore();
         $active = 'user';
         $date = Carbon::now()->toDateString();
         $data = User::all();
@@ -26,7 +25,6 @@ class AdminController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'type_anggota' => 'required',
-            // 'email' => 'email',
             'kode_pos' => 'numeric|digits:5',
             'jenis_user' => 'numeric',
             'alamat' => 'required',
@@ -62,7 +60,6 @@ class AdminController extends Controller
         $user->username = $request->username;
         $user->email = $request->email;
         $user->gender = $request->gender;
-        // dd($user);
         $user->alamat = $request->alamat;
         $user->nama_instansi = $request->nama_instansi;
         if ($request->file('image')) {
@@ -82,7 +79,6 @@ class AdminController extends Controller
         $user->tanggal_lahir = $request->tgl_Lahir;
         $user->tanggal_input = Carbon::now()->toDateString();
         $user->password = Hash::make($request->password);
-        // dd($user);
         $user->save();
 
         Alert::toast('Success Add data', 'success');
@@ -152,7 +148,6 @@ class AdminController extends Controller
         $user->tanggal_lahir = $request->tgl_lahir;
         $user->tanggal_input = Carbon::now()->toDateString();
         !empty($request->password) ? Hash::make($request->password) : '';
-        // dd($user);
         $user->save();
 
         Alert::toast('Success Update data', 'success');
@@ -169,8 +164,7 @@ class AdminController extends Controller
             return back()->withInput();
         }
 
-        // dd($request->all());
-        $user = User::where('id', $request->id)->delete();
+        User::where('id', $request->id)->delete();
         Alert::toast('Success Delete data', 'success');
         return back();
     }

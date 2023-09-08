@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
-    <title>RUMAH SAKIT MUHAMMADIYAH LAMONGAN</title>
+    <title>PERPUSTAKAAN SMA NEGERI 3 LAMONGAN</title>
     {{-- <style>
         .box {
             display: block;

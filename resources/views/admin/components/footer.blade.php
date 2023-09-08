@@ -1,7 +1,7 @@
 <footer>
     <div class="footer clearfix mb-0 text-muted">
         <div class="float-start">
-            <p>&copy; Copyright 2023 Koperasi Rumah Sakit Muhammadiyah Lamongan. All Rights Reserved.</p>
+            <p>&copy; Copyright 2023 PERPUSTAKAAN SMA NEGERI 3 LAMONGAN. All Rights Reserved.</p>
         </div>
         {{-- <div class="float-end">
             <p>
