@@ -446,7 +446,7 @@
         </tr>
         <tr>
             <td>Jumlah Buku Kembali</td>
-            <td>: {{ $data->where('keterangan', 'ready')->count() }}</td>
+            <td>: {{ $data->where('keterangan', 'kembali')->count() }}</td>
         </tr>
         <tr>
             <td>Jumlah Buku Terlambat</td>
