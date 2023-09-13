@@ -442,7 +442,8 @@
         </tr>
         <tr>
             <td>Jumlah Buku Dipinjam</td>
-            <td>: {{ $data->where('keterangan', 'pinjam')->count() }}</td>
+            <td>: {{ $data->where('keterangan', 'pinjam')->count() + $data->where('keterangan', 'Telat')->count() }}
+            </td>
         </tr>
         <tr>
             <td>Jumlah Buku Kembali</td>
