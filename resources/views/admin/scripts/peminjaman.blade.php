@@ -113,6 +113,7 @@
                 // $('#isbn_pengembalian').val(data['detail_peminjaman']['buku'][0][
                 //     'isbn'
                 // ])
+                // console.log(data);
                 $('#tgl_pinjam').val(data['detail_peminjaman']['peminjaman'][0][
                     'tgl_pinjam'
                 ])

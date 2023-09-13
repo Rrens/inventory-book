@@ -24,6 +24,7 @@ class LaporanController extends Controller
             ->select('p.tgl_pinjam', 'dp.keterangan')
             ->join('peminjaman as p', 'p.id', '=', 'dp.id_peminjaman')
             ->get();
+        // dd($for_count);
 
         $data_detail =
             DetailPeminjaman::with('User', 'Peminjaman', 'Buku')

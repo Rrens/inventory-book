@@ -111,7 +111,7 @@ class PeminjamanController extends Controller
                 ->latest()
                 ->first();
 
-            // dd($check_telat);
+            // dd($detail_buku);
 
             if (!empty($check_telat)) {
                 return response()->json([
@@ -161,6 +161,7 @@ class PeminjamanController extends Controller
                 $query->select('tgl_kembali', 'tgl_pinjam');
             })
                 ->where('id_user', $user->id)
+                ->latest()
                 ->first();
             $detail_riwayat = DetailPeminjaman::where('id_user', $user->id)
                 ->where('keterangan', 'pinjam')
