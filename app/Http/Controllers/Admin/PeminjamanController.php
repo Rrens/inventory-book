@@ -294,7 +294,11 @@ class PeminjamanController extends Controller
         $peminjaman_detail = DetailPeminjaman::where('id_peminjaman', $peminjaman->id)->first();
         $peminjaman_detail->id_user = $request->id_member;
         $peminjaman_detail->id_buku = Bukus::where('isbn', $request->isbn)->select('id')->first()['id'];
-        $peminjaman_detail->keterangan = 'pinjam';
+        if ($peminjaman->tgl_kembali < Carbon::today()->toDateString()) {
+            $peminjaman_detail->keterangan = 'Telat';
+        } else {
+            $peminjaman_detail->keterangan = 'pinjam';
+        }
         $peminjaman_detail->save();
 
         Alert::toast('Success Update Peminjaman', 'success');
