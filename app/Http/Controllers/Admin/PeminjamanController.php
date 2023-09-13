@@ -10,6 +10,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -23,9 +24,10 @@ class PeminjamanController extends Controller
         // dd($data);
         foreach ($data as $item) {
             if ($item->Peminjaman[0]->tgl_kembali < Carbon::today()->toDateString()) {
-                DetailPeminjaman::where('id', $item->id)->update(['keterangan' => 'Telat']);
+                if (empty($item->peminjaman[0]->tgl_pengembalian)) {
+                    DetailPeminjaman::where('id', $item->id)->update(['keterangan' => 'Telat']);
+                }
             } else if ($item->keterangan == 'kembali') {
-                // dd('ini');
                 DetailPeminjaman::where('id', $item->id)->update(['keterangan' => 'kembali']);
             } else {
                 DetailPeminjaman::where('id', $item->id)->update(['keterangan' => 'pinjam']);
@@ -163,9 +165,16 @@ class PeminjamanController extends Controller
                 ->where('id_user', $user->id)
                 ->latest()
                 ->first();
-            $detail_riwayat = DetailPeminjaman::where('id_user', $user->id)
+
+            $detail_riwayat_mentah_1 = DetailPeminjaman::where('id_user', $user->id)
+                ->where('keterangan', 'Telat')
+                ->count('id_user');
+
+            $detail_riwayat_mentah_2 = DetailPeminjaman::where('id_user', $user->id)
                 ->where('keterangan', 'pinjam')
                 ->count('id_user');
+            $detail_riwayat = $detail_riwayat_mentah_1 + $detail_riwayat_mentah_2;
+
             return response()->json([
                 'status' => 'Success',
                 'data_user' => $user,
@@ -290,6 +299,7 @@ class PeminjamanController extends Controller
         $peminjaman = Peminjaman::findOrFail($request->id_peminjaman);
         $peminjaman->tgl_pinjam = $request->tanggal_pinjam;
         $peminjaman->tgl_kembali = $request->tanggal_kembali;
+        $peminjaman->tgl_pengembalian = Carbon::now()->toDateString();
         $peminjaman->save();
 
         $peminjaman_detail = DetailPeminjaman::where('id_peminjaman', $peminjaman->id)->first();
@@ -300,6 +310,7 @@ class PeminjamanController extends Controller
         } else {
             $peminjaman_detail->keterangan = 'pinjam';
         }
+        // dd($peminjaman_detail);
         $peminjaman_detail->save();
 
         Alert::toast('Success Update Peminjaman', 'success');
